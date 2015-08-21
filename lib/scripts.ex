@@ -4,6 +4,7 @@ defmodule Scripts do
   require HTTPoison
   require Floki
 
+  # Get LGTM Image from lgtm.in
   def hear("lgtm", message, slack) do
     HTTPoison.start
     case URI.encode("http://www.lgtm.in/g") |> HTTPoison.get do
