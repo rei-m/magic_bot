@@ -31,7 +31,8 @@ defmodule MagicBot.Mixfile do
       {:slack, "~> 0.2.0"},
       {:websocket_client, git: "https://github.com/jeremyong/websocket_client"},
       {:httpoison, "~> 0.7.2"},
-      {:floki, "~> 0.3"}
+      {:floki, "~> 0.3"},
+      {:poison, "~> 1.5"}
     ]
   end
 end
