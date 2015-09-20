@@ -7,6 +7,7 @@ defmodule MagicBot.Supervisor do
 
   # Define alias of process name
   @bot_name MagicBot.Bot
+  @action_sup_name BotAction.Supervisor
 
   def init(:ok) do
 
@@ -18,7 +19,8 @@ defmodule MagicBot.Supervisor do
 
     # Make child process
     children = [
-      worker(MagicBot.Bot, [api_key, [name: @bot_name]]),
+      supervisor(BotAction.Supervisor, [[name: @action_sup_name]]),
+      worker(MagicBot.Bot, [api_key, [name: @bot_name, ba: @action_sup_name]])
     ]
 
     supervise(children, strategy: :one_for_one)
