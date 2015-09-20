@@ -3,7 +3,7 @@ defmodule MagicBot.Mixfile do
 
   def project do
     [app: :magic_bot,
-     version: "0.0.1",
+     version: "0.0.2",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -14,7 +14,8 @@ defmodule MagicBot.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :slack]]
+    [applications: [:logger, :slack],
+    mod: {MagicBot, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -28,8 +29,8 @@ defmodule MagicBot.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
+      {:websocket_client, github: "jeremyong/websocket_client"},
       {:slack, "~> 0.2.0"},
-      {:websocket_client, git: "https://github.com/jeremyong/websocket_client"},
       {:httpoison, "~> 0.7.2"},
       {:floki, "~> 0.3"},
       {:poison, "~> 1.5"}

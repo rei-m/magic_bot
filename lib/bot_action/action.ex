@@ -1,9 +1,4 @@
-defmodule Scripts do
-  use Slack
-
-  require Poison
-  require HTTPoison
-  require Floki
+defmodule BotAction.Action do
 
   # Get LGTM Image from lgtm.in
   def hear("lgtm", message, slack) do
@@ -13,14 +8,13 @@ defmodule Scripts do
         |> Floki.find("#imageUrl")
         |> Floki.attribute("value")
         |> hd
-        |> send_message(message.channel, slack)
+        |> send_message(message, slack)
       {_, _} -> nil
     end
   end
 
   # Don't remove. This is default pattern.
-  def hear(_, _, _) do
-  end
+  def hear(_, _, _) do end
 
   def respond("ちくわ", message, slack) do
     HTTPoison.start
@@ -29,17 +23,20 @@ defmodule Scripts do
         |> Poison.decode!
         |> pick_random
         |> create_tiqav_image_url
-        |> send_message(message.channel, slack)
+        |> send_message(message, slack)
       {_, _} -> nil
     end
   end
 
   def respond("エリクサーほしい？", message, slack) do
-     send_message("エリクサーちょうだい！\nhttp://img.yaplog.jp/img/01/pc/2/5/2/25253/1/1354.jpg", message.channel, slack)
+     send_message("エリクサーちょうだい！\nhttp://img.yaplog.jp/img/01/pc/2/5/2/25253/1/1354.jpg", message, slack)
   end
 
   # Don't remove. This is default pattern.
-  def respond(_, _, _) do
+  def respond(_, _, _) do end
+
+  defp send_message(text, message, slack) do
+    Slack.send_message(text, message.channel, slack)
   end
 
   defp create_tiqav_search_api_url(text) do

@@ -1,1 +1,1 @@
-botworker: mix run --no-halt ./boot.ex
+botworker: mix run --no-halt
