@@ -20,12 +20,12 @@ defmodule MagicBot.Bot do
   def handle_message(message = %{type: "message", text: _}, slack, state) do
     # get trigger of action
     trigger = String.split(message.text, ~r{ |　})
-    
+
     case String.starts_with?(message.text, "<@#{slack.me.id}>: ") do
       # when receive message that is to Bot. For example "@bot foo"
-      true -> BotAction.Supervisor.start_action(state[:sup_action], :respond, Enum.fetch!(trigger, 1), message, slack)
+      true -> BotAction.Supervisor.start_action(state, :respond, Enum.fetch!(trigger, 1), message, slack)
       # when receive message. For example "bar"
-      false -> BotAction.Supervisor.start_action(state[:sup_action], :hear, hd(trigger), message, slack)
+      false -> BotAction.Supervisor.start_action(state, :hear, hd(trigger), message, slack)
     end
     {:ok, state}
   end

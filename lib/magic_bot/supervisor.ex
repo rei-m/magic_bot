@@ -28,10 +28,13 @@ defmodule MagicBot.Supervisor do
       s -> s
     end
 
+    # Create ETS Table
+    table = :ets.new(:work_bot, [:set, :public])
+
     # Make child process
     children = [
       supervisor(BotAction.Supervisor, [[name: @action_sup_name]]),
-      worker(MagicBot.Bot, [api_key, [name: @bot_name, sup_action: @action_sup_name]])
+      worker(MagicBot.Bot, [api_key, [name: @bot_name, sup_action: @action_sup_name, ets: table]])
     ]
 
     supervise(children, strategy: :one_for_one)

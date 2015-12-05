@@ -14,11 +14,11 @@ defmodule BotAction.Supervisor do
   @doc """
   Make new process of bot action.The process is supervised by Task.Supervisor.
   """
-  def start_action(supervisor, command, trigger, message, slack) do
-    Task.Supervisor.start_child(supervisor, fn ->
+  def start_action(state, command, trigger, message, slack) do
+    Task.Supervisor.start_child(state[:sup_action], fn ->
       case command do
-        :respond -> BotAction.Action.respond(trigger, message, slack)
-        :hear -> BotAction.Action.hear(trigger, message, slack)
+        :respond -> BotAction.Action.respond(trigger, message, state[:ets], slack)
+        :hear -> BotAction.Action.hear(trigger, message, state[:ets], slack)
       end
     end)
   end
